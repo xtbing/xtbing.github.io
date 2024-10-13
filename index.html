@@ -1,0 +1,85 @@
+向开源社区贡献代码
+KVM开发者邮件列表是：kvm@vger.kernel.org
+KVM内核部分以及QEMU中与KVM相关部分的讨论都会在这里讨论。
+订阅方法：向majordomo@vger.kernel.org发送一封以”subscribe kvm”为正文的邮件。
+
+QEMU开发者邮件列表是：qemu-devel@nongnu.org
+QEMU普通用户讨论的邮件列表是：qemu-discuss@nongnu.org
+
+KVM的IRC频道：在irc.freenode.net服务器上的#kvm频道
+
+QEMU的IRC频道：在irc.oftc.net服务器上的#qemu频道
+QEMU 代码仓库
+QEMU项目的官方网站为：
+
+qemu.org
+qemu-project.org 
+
+QEMU社区的代码仓库:
+
+http://git.qemu.org/
+
+其中qemu.git就是QEMU upstream的主干代码树。
+使用git，可以通过2个URL(git://git.qemu.org/qemu.git 和 http://git.qemu.org/git/qemu.git)中的任意一个下载QEMU的最新源代码。
+
+upstream：一些开源项目中最主干且一直向前发展的代码树。upstream中包含了最新的代码，一些新增的功能特性和修复的bug一般都会先进入到upstream中，然后才会到某一个具体的发行版本中。Linux upstream就是指最新的Linux内核代码树，而一些Linux发行版的内核则是基于upstream的某一个版本再加上一些patch来制作的。
+
+KVM 代码仓库
+KVM IRC:
+http://www.linux-kvm.org/page/Lists,_IRC
+
+KVM 代码仓库:
+http://www.linux-kvm.org/page/Code
+
+KVM git workflow:
+http://www.linux-kvm.org/page/Kvm-Git-Workflow
+
+KVM的论坛：
+http://forums.meulie.net/
+
+KVM bugs:
+http://www.linux-kvm.org/page/Bugs
+
+KVM Test:
+http://www.linux-kvm.org/page/Avocado
+
+开发方式
+QEMU/KVM社区的开发方式是：
+与KVM相关的新功能代码或者 bug fix 代码需要发到KVM邮件组，经审核后，加入qemu-kvm.git代码仓库的uq/master分支中，再定期推送到qemu.git主干代码仓库。
+
+在目前的KVM社区中，生成的KVM内核部分的patch，要基于kvm.git代码仓库的next分支来进行开发的；
+而QEMU部分的patch，是要基于qemu-kvm.git代码仓库的 uq/master 分支来开发的。
+
+报告 bug
+KVM的bug管理系统：
+https://bugzilla.kernel.org
+
+QEMU的bug管理系统：
+https://bugs.launchpad.net/qemu
+
+如何发布 patch
+打patch
+diffstat这个工具可以生成patch引起的变化的统计信息，包括：修改的文件位置、被改动的文件个数、增加或删除的行数。
+在往邮件列表发送patch时，最好能够将diffstat工具统计的信息附加在patch之前。
+
+使用git生成patch：
+先git commit，再git format-patch -N
+
+git format-patch -N 命令表示计算最新N次提交信息而得到的patch.
+git format-patch origin 命令表示生成所有的本地提交所对应的patch文件。
+
+Linux内核和QEMU都分别提供了检查patch的脚本，位置分别是：
+内核：scripts/checkpatch.pl
+QEMU：scripts/checkpatch.pl
+
+如果是使用 git format-patch 命令来生成的patch，可以在生成patch的时候就添加 -s 或 –signoff 参数，以便在生成patch文件时就添加 “Signed-off-by:” 信息行。
+
+提交patch
+KVM和QEMU的patch提交，都是通过发送到邮件列表来实现的。
+一般收件人或抄送人中还包含该项目或子模块的维护者。可以根据源代码中的 MAINTAINERS 文件来查看维护者信息以及他们负责的模块。另外，Linux内核和QEMU的代码仓库中都提供了一个根据patch查看维护者的脚本，其位置是：scripts/get_maintainer.pl
+
+如果实现某个功能的patch的代码量较大，尽量将其拆成多个相对独立的小patch. 比如，拆分成m个patch，当发送第n个的时候，一般邮件的主题标注为”[PATCH n/m]”表示当前patch在这一系列patch中的位置。一般还会发一个[PATCH 0/m]作为第一个patch，这个数字编号为0的patch通常用于书写本系列patch的概括信息。
+根据社区意见修改patch后，需加上当前patch的版本号，比如”[PATCH v6 05/12]”.
+RFC(Request For Comments) patch邮件，多用于提交一个不太成熟的patch，请大家对该patch提出改进意见。
+
+可以使用git-email安装包中的git send-email 命令行工具来发送patch.
